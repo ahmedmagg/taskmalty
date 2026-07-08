@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskMalty - جميع الخدمات الرقمية في مكان واحد</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a1a2e; --secondary: #16213e; --accent: #e6b325; --accent-hover: #d4a017;
+            --text-light: #f8f9fa; --text-muted: #adb5bd; --bg-dark: #0f0f1a; --bg-card: #1a1a2e;
+            --border: #2a2a4a; --success: #28a745; --danger: #dc3545; --info: #17a2b8;
+            --gradient-gold: linear-gradient(135deg, #e6b325 0%, #d4a017 50%, #c9950c 100%);
+            --shadow-lg: 0 8px 30px rgba(0,0,0,0.2); --shadow-gold: 0 4px 20px rgba(230,179,37,0.3);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Tajawal', sans-serif; background: var(--bg-dark); color: var(--text-light); overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* Navbar */
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(15,15,26,0.98); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); height: 70px; }
+        .navbar-container { max-width: 1400px; margin: 0 auto; padding: 0 1.25rem; display: flex; justify-content: space-between; align-items: center; height: 100%; }
+        .logo { font-size: 1.4rem; font-weight: 900; background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 0.4rem; text-decoration: none; }
+        .logo i { font-size: 1.6rem; -webkit-text-fill-color: var(--accent); }
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; transition: var(--transition); position: relative; font-size: 0.9rem; white-space: nowrap; }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--accent); transition: var(--transition); }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-controls { display: flex; gap: 0.6rem; align-items: center; }
+        .btn-icon { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: transparent; color: var(--text-light); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); font-size: 0.95rem; position: relative; }
+        .btn-icon:hover { background: var(--accent); color: var(--primary); border-color: var(--accent); }
+        .btn-primary { background: var(--gradient-gold); color: var(--primary); border: none; padding: 0.6rem 1.25rem; border-radius: 50px; font-weight: 700; cursor: pointer; transition: var(--transition); text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: var(--shadow-gold); font-size: 0.85rem; white-space: nowrap; }
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn-secondary { background: transparent; color: var(--accent); border: 2px solid var(--accent); padding: 0.6rem 1.25rem; border-radius: 50px; font-weight: 700; cursor: pointer; transition: var(--transition); text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; white-space: nowrap; }
+        .btn-secondary:hover { background: var(--accent); color: var(--primary); }
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--text-light); font-size: 1.3rem; cursor: pointer; }
+        .cart-badge { position: absolute; top: -5px; left: -5px; background: var(--danger); color: white; font-size: 0.65rem; width: 18px; height: 18px; border-radius: 50%; display: none; align-items: center; justify-content: center; font-weight: 700; }
+
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; padding: 100px 1.5rem 60px; }
+        .hero-bg { position: absolute; inset: 0; background: radial-gradient(circle at 20% 50%, rgba(230,179,37,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(230,179,37,0.05) 0%, transparent 50%); }
+        .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(230,179,37,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(230,179,37,0.03) 1px, transparent 1px); background-size: 50px 50px; animation: float 6s ease-in-out infinite; }
+        .hero-content { max-width: 850px; text-align: center; position: relative; z-index: 2; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(230,179,37,0.1); border: 1px solid rgba(230,179,37,0.3); padding: 0.5rem 1.5rem; border-radius: 50px; font-size: 0.85rem; color: var(--accent); margin-bottom: 1.5rem; }
+        .hero-title { font-size: clamp(2rem, 5vw, 4rem); font-weight: 900; line-height: 1.15; margin-bottom: 1.25rem; background: linear-gradient(135deg, var(--text-light) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-subtitle { font-size: clamp(0.9rem, 2vw, 1.15rem); color: var(--text-muted); margin-bottom: 2rem; line-height: 1.8; max-width: 650px; margin-left: auto; margin-right: auto; }
+        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .hero-stats { display: flex; justify-content: center; gap: 2.5rem; margin-top: 3rem; flex-wrap: wrap; }
+        .stat-item { text-align: center; }
+        .stat-number { font-size: 2.2rem; font-weight: 900; color: var(--accent); display: block; }
+        .stat-label { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.4rem; }
+
+        /* Sections */
+        .section { padding: 80px 1.5rem; position: relative; }
+        .section-header { text-align: center; max-width: 700px; margin: 0 auto 3rem; }
+        .section-label { display: inline-block; background: rgba(230,179,37,0.1); color: var(--accent); padding: 0.35rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.75rem; border: 1px solid rgba(230,179,37,0.2); }
+        .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 0.75rem; }
+        .section-desc { color: var(--text-muted); font-size: 1rem; line-height: 1.7; }
+
+        /* Category Cards on Home */
+        .categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; max-width: 1400px; margin: 0 auto; }
+        .category-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; transition: var(--transition); cursor: pointer; text-decoration: none; color: var(--text-light); display: block; position: relative; overflow: hidden; }
+        .category-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient-gold); transform: scaleX(0); transition: var(--transition); }
+        .category-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
+        .category-card:hover::before { transform: scaleX(1); }
+        .category-card-icon { width: 56px; height: 56px; background: var(--gradient-gold); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.4rem; margin-bottom: 1.25rem; }
+        .category-card-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .category-card-desc { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.6; }
+        .category-card-count { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(230,179,37,0.1); color: var(--accent); padding: 0.35rem 0.9rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
+        .category-card-arrow { position: absolute; left: 1.5rem; bottom: 1.5rem; color: var(--accent); font-size: 1.2rem; transition: var(--transition); }
+        .category-card:hover .category-card-arrow { transform: translateX(-5px); }
+
+        /* Sub-pages */
+        .sub-page { display: none; min-height: 100vh; padding-top: 90px; }
+        .sub-page.active { display: block; animation: fadeIn 0.4s ease-out; }
+        .page-header { text-align: center; max-width: 700px; margin: 0 auto 3rem; padding: 0 1.5rem; }
+        .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent); text-decoration: none; font-weight: 700; margin-bottom: 1.5rem; cursor: pointer; background: none; border: none; font-size: 1rem; font-family: inherit; }
+        .back-btn:hover { color: var(--accent-hover); }
+        .back-btn i { font-size: 0.9rem; }
+
+        /* Service Cards on Sub-pages */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; }
+        .service-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 1.5rem; transition: var(--transition); position: relative; overflow: hidden; }
+        .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient-gold); transform: scaleX(0); transition: var(--transition); }
+        .service-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
+        .service-card:hover::before { transform: scaleX(1); }
+        .service-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; }
+        .service-name { font-size: 1.1rem; font-weight: 700; }
+        .service-badge { background: rgba(230,179,37,0.15); color: var(--accent); padding: 0.25rem 0.7rem; border-radius: 20px; font-size: 0.7rem; font-weight: 700; }
+        .service-badge.manual { background: rgba(220,53,69,0.15); color: var(--danger); }
+        .service-badge.ai { background: rgba(40,167,69,0.15); color: var(--success); }
+        .service-pricing { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.25rem; }
+        .price-row { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem; background: rgba(255,255,255,0.03); border-radius: 10px; }
+        .price-label { font-size: 0.8rem; color: var(--text-muted); }
+        .price-value { font-weight: 800; font-size: 1rem; }
+        .price-value.manual { color: var(--text-light); }
+        .price-value.ai { color: var(--accent); }
+        .service-meta { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+        .meta-tag { display: flex; align-items: center; gap: 0.35rem; font-size: 0.75rem; color: var(--text-muted); }
+        .meta-tag i { color: var(--accent); font-size: 0.8rem; }
+        .service-actions { margin-top: 1.25rem; display: flex; gap: 0.6rem; }
+        .btn-sm { padding: 0.55rem 1rem; font-size: 0.8rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: var(--transition); border: none; display: inline-flex; align-items: center; gap: 0.35rem; }
+        .btn-gold { background: var(--gradient-gold); color: var(--primary); }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: var(--shadow-gold); }
+        .btn-outline { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+        .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* Calculator */
+        .calculator-section { background: var(--gradient-dark); position: relative; overflow: hidden; }
+        .calculator-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 50%, rgba(230,179,37,0.05) 0%, transparent 60%); }
+        .calculator-container { max-width: 850px; margin: 0 auto; position: relative; z-index: 2; }
+        .calculator-form { background: var(--bg-card); border: 1px solid var(--border); border-radius: 22px; padding: 2.5rem; box-shadow: var(--shadow-lg); }
+        .form-group { margin-bottom: 1.25rem; }
+        .form-label { display: block; margin-bottom: 0.6rem; font-weight: 600; font-size: 0.9rem; }
+        .form-select, .form-input, .form-range { width: 100%; padding: 0.85rem 1rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 12px; color: var(--text-light); font-family: inherit; font-size: 0.95rem; transition: var(--transition); }
+        .form-select:focus, .form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(230,179,37,0.1); }
+        .form-range { -webkit-appearance: none; height: 8px; background: var(--border); border-radius: 4px; padding: 0; }
+        .form-range::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; background: var(--accent); border-radius: 50%; cursor: pointer; box-shadow: 0 0 10px rgba(230,179,37,0.3); }
+        .range-value { display: inline-block; margin-top: 0.4rem; color: var(--accent); font-weight: 700; font-size: 0.9rem; }
+        .calculator-result { background: var(--gradient-gold); color: var(--primary); border-radius: 18px; padding: 2rem; text-align: center; margin-top: 1.5rem; }
+        .result-label { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; opacity: 0.9; }
+        .result-price { font-size: 3rem; font-weight: 900; margin-bottom: 0.4rem; }
+        .result-breakdown { font-size: 0.85rem; opacity: 0.8; line-height: 1.6; }
+
+        /* Portfolio */
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; }
+        .portfolio-item { position: relative; border-radius: 18px; overflow: hidden; aspect-ratio: 4/3; cursor: pointer; }
+        .portfolio-item img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .portfolio-item:hover img { transform: scale(1.1); }
+        .portfolio-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,15,26,0.95) 0%, transparent 60%); display: flex; flex-direction: column; justify-content: flex-end; padding: 1.5rem; opacity: 0; transition: var(--transition); }
+        .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+        .portfolio-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.3rem; }
+        .portfolio-category { color: var(--accent); font-size: 0.8rem; font-weight: 600; }
+
+        /* Testimonials */
+        .testimonials-container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+        .testimonial-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 1.5rem; transition: var(--transition); }
+        .testimonial-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .testimonial-stars { color: var(--accent); margin-bottom: 0.75rem; font-size: 0.85rem; }
+        .testimonial-text { font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.25rem; color: var(--text-muted); }
+        .testimonial-author { display: flex; align-items: center; gap: 0.75rem; }
+        .author-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--gradient-gold); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--primary); font-size: 1.1rem; }
+        .author-info h4 { font-size: 0.95rem; font-weight: 700; }
+        .author-info p { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* FAQ */
+        .faq-container { max-width: 750px; margin: 0 auto; padding: 0 1.5rem; }
+        .faq-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 0.75rem; overflow: hidden; transition: var(--transition); }
+        .faq-item:hover { border-color: var(--accent); }
+        .faq-question { padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 700; font-size: 1rem; transition: var(--transition); }
+        .faq-question:hover { color: var(--accent); }
+        .faq-question i { transition: var(--transition); color: var(--accent); font-size: 0.9rem; }
+        .faq-item.active .faq-question i { transform: rotate(180deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .faq-item.active .faq-answer { max-height: 500px; }
+        .faq-answer-content { padding: 0 1.5rem 1.25rem; color: var(--text-muted); line-height: 1.7; font-size: 0.9rem; }
+
+        /* CTA */
+        .cta-section { background: var(--gradient-dark); position: relative; overflow: hidden; text-align: center; }
+        .cta-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(230,179,37,0.1) 0%, transparent 70%); }
+        .cta-content { position: relative; z-index: 2; max-width: 650px; margin: 0 auto; padding: 0 1.5rem; }
+        .cta-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; margin-bottom: 1.25rem; }
+        .cta-desc { color: var(--text-muted); font-size: 1rem; margin-bottom: 2rem; line-height: 1.8; }
+        .cta-buttons { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem; }
+        .contact-methods { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+        .contact-method { display: flex; align-items: center; gap: 0.6rem; color: var(--text-muted); text-decoration: none; transition: var(--transition); padding: 0.85rem 1.25rem; border-radius: 12px; border: 1px solid var(--border); font-size: 0.9rem; }
+        .contact-method:hover { color: var(--accent); border-color: var(--accent); background: rgba(230,179,37,0.05); }
+        .contact-method i { font-size: 1.2rem; color: var(--accent); }
+
+        /* Footer */
+        .footer { background: var(--primary); border-top: 1px solid var(--border); padding: 3rem 1.5rem 1.5rem; }
+        .footer-container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-bottom: 2.5rem; }
+        .footer-brand .logo { margin-bottom: 0.75rem; }
+        .footer-desc { color: var(--text-muted); line-height: 1.7; font-size: 0.85rem; }
+        .footer-title { font-size: 1rem; font-weight: 700; margin-bottom: 1.25rem; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 0.6rem; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; transition: var(--transition); font-size: 0.85rem; }
+        .footer-links a:hover { color: var(--accent); padding-right: 4px; }
+        .footer-bottom { border-top: 1px solid var(--border); padding-top: 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.8rem; }
+        .social-links { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+        .social-links a { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); transition: var(--transition); text-decoration: none; font-size: 0.85rem; }
+        .social-links a:hover { background: var(--accent); color: var(--primary); border-color: var(--accent); }
+
+        /* Modals */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 1rem; overflow-y: auto; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; max-width: 550px; width: 100%; position: relative; animation: fadeInUp 0.3s ease-out; margin: auto; }
+        .modal-header { padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+        .modal-title { font-size: 1.3rem; font-weight: 800; }
+        .modal-close { background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; transition: var(--transition); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        .modal-close:hover { color: var(--danger); background: rgba(220,53,69,0.1); }
+        .modal-body { padding: 1.5rem; max-height: 70vh; overflow-y: auto; }
+        .modal-footer { padding: 1rem 1.5rem 1.5rem; display: flex; justify-content: flex-end; gap: 0.75rem; }
+
+        /* Order Steps */
+        .order-steps { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.5rem; }
+        .order-step { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: var(--text-muted); }
+        .order-step.active { color: var(--accent); font-weight: 700; }
+        .order-step.completed { color: var(--success); }
+        .order-step .step-num { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; }
+        .order-step.active .step-num { border-color: var(--accent); background: var(--accent); color: var(--primary); }
+        .order-step.completed .step-num { border-color: var(--success); background: var(--success); color: white; }
+        .step-content { display: none; }
+        .step-content.active { display: block; animation: fadeIn 0.3s ease-out; }
+        .order-form .form-group { margin-bottom: 1.25rem; }
+        .order-form textarea { min-height: 100px; resize: vertical; }
+        .file-upload { border: 2px dashed var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; cursor: pointer; transition: var(--transition); }
+        .file-upload:hover { border-color: var(--accent); background: rgba(230,179,37,0.05); }
+        .file-upload i { font-size: 1.8rem; color: var(--accent); margin-bottom: 0.4rem; }
+        .delivery-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+        .delivery-option { border: 1px solid var(--border); border-radius: 12px; padding: 0.85rem; text-align: center; cursor: pointer; transition: var(--transition); }
+        .delivery-option:hover, .delivery-option.selected { border-color: var(--accent); background: rgba(230,179,37,0.05); }
+        .delivery-option i { font-size: 1.3rem; color: var(--accent); margin-bottom: 0.4rem; display: block; }
+        .delivery-option span { font-size: 0.8rem; font-weight: 600; }
+
+        /* Payment */
+        .payment-options { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+        .payment-option { border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem; text-align: center; cursor: pointer; transition: var(--transition); }
+        .payment-option:hover, .payment-option.selected { border-color: var(--accent); background: rgba(230,179,37,0.05); }
+        .payment-option i { font-size: 2rem; color: var(--accent); margin-bottom: 0.5rem; display: block; }
+        .payment-option span { font-size: 0.85rem; font-weight: 700; }
+        .payment-option small { font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 0.25rem; }
+        .card-fields { display: none; }
+        .card-fields.active { display: block; animation: fadeIn 0.3s ease-out; }
+        .security-badge { background: rgba(40,167,69,0.1); border: 1px solid rgba(40,167,69,0.3); border-radius: 12px; padding: 0.85rem; margin-top: 1rem; display: flex; align-items: center; gap: 0.75rem; color: var(--success); font-size: 0.85rem; }
+
+        /* Cart */
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid var(--border); }
+        .cart-item-info { flex: 1; }
+        .cart-item-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .cart-item-meta { font-size: 0.8rem; color: var(--text-muted); }
+        .cart-item-price { font-weight: 800; color: var(--accent); font-size: 1.1rem; margin: 0 1rem; }
+        .cart-item-remove { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 1rem; padding: 0.25rem; }
+        .cart-empty { text-align: center; padding: 3rem 1rem; color: var(--text-muted); }
+        .cart-empty i { font-size: 2.5rem; margin-bottom: 1rem; display: block; color: var(--border); }
+        .cart-total-row { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 0; margin-top: 0.5rem; border-top: 2px solid var(--accent); }
+
+        /* Success */
+        .success-icon { width: 70px; height: 70px; background: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; }
+        .success-icon i { font-size: 2.2rem; color: white; }
+        .order-id-box { background: rgba(230,179,37,0.1); border: 1px solid rgba(230,179,37,0.2); border-radius: 12px; padding: 1rem; margin: 1.25rem 0; }
+
+        /* Toast */
+        .toast-container { position: fixed; top: 85px; left: 50%; transform: translateX(-50%); z-index: 3000; display: flex; flex-direction: column; gap: 0.5rem; }
+        .toast { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 0.85rem 1.25rem; display: flex; align-items: center; gap: 0.6rem; box-shadow: var(--shadow-lg); animation: fadeInUp 0.3s ease-out; min-width: 280px; font-size: 0.9rem; }
+        .toast.success { border-color: var(--success); }
+        .toast.error { border-color: var(--danger); }
+        .toast.info { border-color: var(--info); }
+        .toast i { font-size: 1.1rem; }
+        .toast.success i { color: var(--success); }
+        .toast.error i { color: var(--danger); }
+        .toast.info i { color: var(--info); }
+
+        /* Mobile Menu */
+        .mobile-menu { position: fixed; top: 0; right: -100%; width: 80%; max-width: 350px; height: 100vh; background: var(--bg-card); z-index: 1500; transition: right 0.3s ease; padding: 1.5rem; overflow-y: auto; }
+        .mobile-menu.active { right: 0; }
+        .mobile-menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1400; display: none; }
+        .mobile-menu-overlay.active { display: block; }
+        .mobile-menu-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+        .mobile-menu-links { list-style: none; }
+        .mobile-menu-links li { margin-bottom: 0.5rem; }
+        .mobile-menu-links a { color: var(--text-light); text-decoration: none; font-size: 1.1rem; font-weight: 600; display: block; padding: 0.6rem 0; transition: var(--transition); }
+        .mobile-menu-links a:hover { color: var(--accent); padding-right: 8px; }
+
+        /* Scroll Reveal */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Spinner */
+        .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: rotate 0.8s linear infinite; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+        }
+        @media (max-width: 768px) {
+            .navbar { height: 60px; }
+            .navbar-container { padding: 0 1rem; }
+            .logo { font-size: 1.15rem; }
+            .logo i { font-size: 1.3rem; }
+            .btn-primary { padding: 0.5rem 1rem; font-size: 0.75rem; }
+            .btn-icon { width: 36px; height: 36px; font-size: 0.85rem; }
+            .hero { padding: 80px 1rem 40px; }
+            .hero-stats { gap: 1.5rem; margin-top: 2rem; }
+            .stat-number { font-size: 1.8rem; }
+            .section { padding: 50px 1rem; }
+            .categories-grid { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: 1fr; padding: 0 1rem; }
+            .portfolio-grid { grid-template-columns: 1fr; padding: 0 1rem; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .delivery-options { grid-template-columns: 1fr; }
+            .payment-options { grid-template-columns: 1fr; }
+            .contact-methods { flex-direction: column; align-items: center; }
+            .calculator-form { padding: 1.5rem; }
+            .modal { margin: 0.5rem; }
+            .modal-body { padding: 1rem; max-height: 65vh; }
+            .footer-container { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        }
+        @media (max-width: 480px) {
+            .nav-controls { gap: 0.3rem; }
+            .btn-primary { padding: 0.45rem 0.85rem; font-size: 0.7rem; }
+            .hero-title { font-size: 1.6rem; }
+            .hero-cta { flex-direction: column; align-items: center; width: 100%; }
+            .hero-cta .btn-primary, .hero-cta .btn-secondary { width: 100%; justify-content: center; }
+            .footer-container { grid-template-columns: 1fr; }
+            .cart-item { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+        }
+    </style>
+<base target="_blank">
+<base target="_blank">
+</head>
+<body>
+    <div class="toast-container" id="toastContainer"></div>
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo"><i class="fas fa-bolt"></i> TaskMalty</div>
+            <button class="modal-close" onclick="closeMobileMenu()">&times;</button>
+        </div>
+        <ul class="mobile-menu-links">
+            <li><a href="https://www.facebook.com/ahmed.magdy.813088" target="_blank" onclick="goHome(); closeMobileMenu(); return false;">الرئيسية</a></li>
+            <li><a href="#services" onclick="goHome(); closeMobileMenu(); return false;">الخدمات</a></li>
+            <li><a href="#calculator" onclick="goHome(); closeMobileMenu(); return false;">حاسبة الأسعار</a></li>
+            <li><a href="#portfolio" onclick="goHome(); closeMobileMenu(); return false;">أعمالنا</a></li>
+            <li><a href="#testimonials" onclick="goHome(); closeMobileMenu(); return false;">آراء العملاء</a></li>
+            <li><a href="#faq" onclick="goHome(); closeMobileMenu(); return false;">الأسئلة الشائعة</a></li>
+            <li><a href="#contact" onclick="goHome(); closeMobileMenu(); return false;">تواصل معنا</a></li>
+        </ul>
+    </div>
+
+    <nav class="navbar" id="navbar">
+        <div class="navbar-container">
+            <a href="#" class="logo" onclick="goHome(); return false;"><i class="fas fa-bolt"></i> TaskMalty</a>
+            <div class="nav-links">
+                <a href="#services" onclick="goHome()">الخدمات</a>
+                <a href="#calculator" onclick="goHome()">حاسبة الأسعار</a>
+                <a href="#portfolio" onclick="goHome()">أعمالنا</a>
+                <a href="#testimonials" onclick="goHome()">آراء العملاء</a>
+                <a href="#faq" onclick="goHome()">الأسئلة الشائعة</a>
+                <a href="#contact" onclick="goHome()">تواصل معنا</a>
+            </div>
+            <div class="nav-controls">
+                <button class="btn-icon" onclick="openCartModal()" title="سلة الطلبات">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+                <button class="btn-primary" onclick="openOrderModal()"><i class="fas fa-plus"></i> طلب جديد</button>
+                <button class="mobile-menu-btn" onclick="openMobileMenu()"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <div id="homePage">
+        <section class="hero" id="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-grid"></div>
+            <div class="hero-content">
+                <div class="hero-badge"><i class="fas fa-star"></i><span>أكثر من 500+ مشروع منجز</span></div>
+                <h1 class="hero-title">جميع الخدمات الرقمية في مكان واحد</h1>
+                <p class="hero-subtitle">نقدم لك خدمات رقمية احترافية مقسمة إلى خدمات يدوية وخدمات مدعومة بالذكاء الاصطناعي، بأسعار شفافة وجودة عالية.</p>
+                <div class="hero-cta">
+                    <a href="#services" class="btn-primary"><i class="fas fa-shopping-cart"></i> اطلب الآن</a>
+                    <a href="#services" class="btn-secondary"><i class="fas fa-eye"></i> تصفح الباقات</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item"><span class="stat-number">500+</span><div class="stat-label">مشروع منجز</div></div>
+                    <div class="stat-item"><span class="stat-number">50+</span><div class="stat-label">خدمة متاحة</div></div>
+                    <div class="stat-item"><span class="stat-number">98%</span><div class="stat-label">نسبة رضا العملاء</div></div>
+                    <div class="stat-item"><span class="stat-number">24/7</span><div class="stat-label">دعم فني</div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="services">
+            <div class="section-header reveal">
+                <div class="section-label">خدماتنا</div>
+                <h2 class="section-title">اختر القسم المناسب</h2>
+                <p class="section-desc">كل قسم يحتوي على خدمات متخصصة بأسعار شفافة</p>
+            </div>
+            <div class="categories-grid" style="padding: 0 1.5rem;">
+                <a href="#" class="category-card" onclick="openPage('engineering'); return false;">
+                    <div class="category-card-icon"><i class="fas fa-drafting-compass"></i></div>
+                    <div class="category-card-title">الخدمات الهندسية</div>
+                    <div class="category-card-desc">AutoCAD, SolidWorks, Revit - يدوي و AI</div>
+                    <div class="category-card-count"><i class="fas fa-tools"></i> 5 خدمات</div>
+                    <div class="category-card-arrow"><i class="fas fa-arrow-left"></i></div>
+                </a>
+                <a href="#" class="category-card" onclick="openPage('data'); return false;">
+                    <div class="category-card-icon"><i class="fas fa-database"></i></div>
+                    <div class="category-card-title">البيانات والأوفيس</div>
+                    <div class="category-card-desc">Data Entry, Excel, PowerPoint, Word, Access</div>
+                    <div class="category-card-count"><i class="fas fa-tools"></i> 3 باقات</div>
+                    <div class="category-card-arrow"><i class="fas fa-arrow-left"></i></div>
+                </a>
+                <a href="#" class="category-card" onclick="openPage('video'); return false;">
+                    <div class="category-card-icon"><i class="fas fa-video"></i></div>
+                    <div class="category-card-title">تحرير الفيديو</div>
+                    <div class="category-card-desc">Short-form, Long-form, Motion - يدوي فقط</div>
+                    <div class="category-card-count"><i class="fas fa-tools"></i> 3 خدمات</div>
+                    <div class="category-card-arrow"><i class="fas fa-arrow-left"></i></div>
+                </a>
+                <a href="#" class="category-card" onclick="openPage('photo'); return false;">
+                    <div class="category-card-icon"><i class="fas fa-image"></i></div>
+                    <div class="category-card-title">تعديل الصور والتصميم</div>
+                    <div class="category-card-desc">Photo Editing, Canva, Social Media - يدوي و AI</div>
+                    <div class="category-card-count"><i class="fas fa-tools"></i> 3 خدمات</div>
+                    <div class="category-card-arrow"><i class="fas fa-arrow-left"></i></div>
+                </a>
+                <a href="#" class="category-card" onclick="openPage('branding'); return false;">
+                    <div class="category-card-icon"><i class="fas fa-paint-brush"></i></div>
+                    <div class="category-card-title">الهوية البصرية والجرافيك</div>
+                    <div class="category-card-desc">Logo, Business Cards, NFC, Marketing - يدوي و AI</div>
+                    <div class="category-card-count"><i class="fas fa-tools"></i> 5 خدمات</div>
+                    <div class="category-card-arrow"><i class="fas fa-arrow-left"></i></div>
+                </a>
+                <a href="#" class="category-card" onclick="openPage('dev'); return false;">
+                    <div class="category-card-icon"><i class="fas fa-code"></i></div>
+                    <div class="category-card-title">البرمجة وتطوير المواقع</div>
+                    <div class="category-card-desc">WordPress, Shopify, Odoo, Tager - يدوي و AI</div>
+                    <div class="category-card-count"><i class="fas fa-tools"></i> 7 خدمات</div>
+                    <div class="category-card-arrow"><i class="fas fa-arrow-left"></i></div>
+                </a>
+            </div>
+        </section>
+
+        <section class="section calculator-section" id="calculator">
+            <div class="calculator-container">
+                <div class="section-header reveal">
+                    <div class="section-label">حاسبة ذكية</div>
+                    <h2 class="section-title">احسب تكلفة مشروعك</h2>
+                    <p class="section-desc">استخدم حاسبتنا الذكية لمعرفة التكلفة التقريبية</p>
+                </div>
+                <div class="calculator-form reveal" style="margin: 0 1.5rem;">
+                    <div class="form-group">
+                        <label class="form-label">نوع الخدمة</label>
+                        <select class="form-select" id="calcServiceType" onchange="updateCalculator()">
+                            <option value="engineering">الخدمات الهندسية</option>
+                            <option value="data">البيانات والأوفيس</option>
+                            <option value="video">تحرير الفيديو</option>
+                            <option value="photo">تعديل الصور</option>
+                            <option value="branding">الهوية البصرية</option>
+                            <option value="dev">تطوير المواقع</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">طريقة التنفيذ</label>
+                        <select class="form-select" id="calcMethod" onchange="updateCalculator()">
+                            <option value="manual">يدوي</option>
+                            <option value="ai">مدعوم بالذكاء الاصطناعي</option>
+                            <option value="mixed">مختلط</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">عدد الخدمات الأساسية: <span class="range-value" id="mainServicesValue">1</span></label>
+                        <input type="range" class="form-range" id="mainServices" min="1" max="10" value="1" oninput="updateCalculator()">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">عدد الخدمات الثانوية: <span class="range-value" id="subServicesValue">0</span></label>
+                        <input type="range" class="form-range" id="subServices" min="0" max="10" value="0" oninput="updateCalculator()">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">مستوى التعقيد</label>
+                        <select class="form-select" id="calcComplexity" onchange="updateCalculator()">
+                            <option value="1">بسيط</option>
+                            <option value="1.5">متوسط</option>
+                            <option value="2.5">معقد</option>
+                            <option value="4">متقدم جداً</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">سرعة التسليم</label>
+                        <select class="form-select" id="calcSpeed" onchange="updateCalculator()">
+                            <option value="1">عادي (7-14 يوم)</option>
+                            <option value="1.3">سريع (3-7 أيام)</option>
+                            <option value="1.8">عاجل (1-3 أيام)</option>
+                            <option value="2.5">فوري (24 ساعة)</option>
+                        </select>
+                    </div>
+                    <div class="calculator-result">
+                        <div class="result-label">التكلفة التقريبية</div>
+                        <div class="result-price" id="calcResult">$50</div>
+                        <div class="result-breakdown" id="calcBreakdown">السعر الأساسي: $50 + (1 × $20) + (0 × $10)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="portfolio">
+            <div class="section-header reveal">
+                <div class="section-label">معرض الأعمال</div>
+                <h2 class="section-title">أعمالنا السابقة</h2>
+                <p class="section-desc">نماذج من مشاريعنا التي نفذناها لعملائنا الكرام</p>
+            </div>
+            <div class="portfolio-grid" id="portfolioGrid"></div>
+        </section>
+
+        <section class="section" id="testimonials">
+            <div class="testimonials-container">
+                <div class="section-header reveal">
+                    <div class="section-label">آراء العملاء</div>
+                    <h2 class="section-title">ماذا يقول عملاؤنا عنا</h2>
+                    <p class="section-desc">تجارب حقيقية من عملائنا الذين وثقوا بنا</p>
+                </div>
+                <div class="testimonials-grid" id="testimonialsGrid"></div>
+            </div>
+        </section>
+
+        <section class="section" id="faq">
+            <div class="faq-container">
+                <div class="section-header reveal">
+                    <div class="section-label">الأسئلة الشائعة</div>
+                    <h2 class="section-title">هل لديك سؤال؟</h2>
+                    <p class="section-desc">إليك إجابات على أكثر الأسئلة شيوعاً</p>
+                </div>
+                <div id="faqContainer"></div>
+            </div>
+        </section>
+
+        <section class="section cta-section" id="contact">
+            <div class="cta-content reveal">
+                <h2 class="cta-title">ابدأ مشروعك اليوم</h2>
+                <p class="cta-desc">لا تنتظر أكثر! ابدأ مشروعك الآن واحصل على خدمة احترافية</p>
+                <div class="cta-buttons">
+                    <button class="btn-primary" onclick="openOrderModal()"><i class="fas fa-plus"></i> طلب جديد</button>
+                    <a href="https://wa.me/201000414576" class="btn-secondary" target="_blank"><i class="fab fa-whatsapp"></i> تواصل عبر واتساب</a>
+                </div>
+                <div class="contact-methods">
+                    <a href="https://wa.me/201000414576" class="contact-method" target="_blank"><i class="fab fa-whatsapp"></i><span>واتساب</span></a>
+                    <a href="https://t.me/axvman" class="contact-method" target="_blank"><i class="fab fa-telegram"></i><span>تيليجرام</span></a>
+                    <a href="mailto:ellmdy2005@gmail.com" class="contact-method"><i class="fas fa-envelope"></i><span>البريد الإلكتروني</span></a>
+                    <a href="https://www.instagram.com/axvman" class="contact-method" target="_blank"><i class="fab fa-instagram"></i><span>إنستغرام</span></a>
+                    <a href="https://www.linkedin.com/in/axvman" class="contact-method" target="_blank"><i class="fab fa-linkedin-in"></i><span>لينكد إن</span></a>
+                    <a href="https://www.facebook.com/ahmed.magdy.813088" class="contact-method" target="_blank"><i class="fab fa-facebook-f"></i><span>فيسبوك</span></a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ENGINEERING PAGE -->
+    <div class="sub-page" id="page-engineering">
+        <div class="page-header">
+            <button class="back-btn" onclick="goHome()"><i class="fas fa-arrow-right"></i> رجوع للرئيسية</button>
+            <div class="section-label">الخدمات الهندسية</div>
+            <h2 class="section-title">اختر الخدمة الهندسية</h2>
+            <p class="section-desc">خدمات التصميم والرسم الهندسي بأحدث البرامج - متاح يدوي و AI</p>
+        </div>
+        <div class="services-grid" id="engineeringGrid"></div>
+    </div>
+
+    <!-- DATA PAGE -->
+    <div class="sub-page" id="page-data">
+        <div class="page-header">
+            <button class="back-btn" onclick="goHome()"><i class="fas fa-arrow-right"></i> رجوع للرئيسية</button>
+            <div class="section-label">البيانات والأوفيس</div>
+            <h2 class="section-title">باقات البيانات والأوفيس</h2>
+            <p class="section-desc">خدمات إدارة البيانات وأدوات Microsoft Office</p>
+        </div>
+        <div class="services-grid" id="dataGrid"></div>
+    </div>
+
+    <!-- VIDEO PAGE -->
+    <div class="sub-page" id="page-video">
+        <div class="page-header">
+            <button class="back-btn" onclick="goHome()"><i class="fas fa-arrow-right"></i> رجوع للرئيسية</button>
+            <div class="section-label">تحرير الفيديو</div>
+            <h2 class="section-title">خدمات تحرير الفيديو</h2>
+            <p class="section-desc">خدمات تحرير الفيديو الاحترافية - يدوية فقط</p>
+        </div>
+        <div class="services-grid" id="videoGrid"></div>
+    </div>
+
+    <!-- PHOTO PAGE -->
+    <div class="sub-page" id="page-photo">
+        <div class="page-header">
+            <button class="back-btn" onclick="goHome()"><i class="fas fa-arrow-right"></i> رجوع للرئيسية</button>
+            <div class="section-label">تعديل الصور والتصميم</div>
+            <h2 class="section-title">خدمات تعديل الصور والتصميم</h2>
+            <p class="section-desc">تعديل الصور وتصميمات السوشيال ميديا - يدوي و AI</p>
+        </div>
+        <div class="services-grid" id="photoGrid"></div>
+    </div>
+
+    <!-- BRANDING PAGE -->
+    <div class="sub-page" id="page-branding">
+        <div class="page-header">
+            <button class="back-btn" onclick="goHome()"><i class="fas fa-arrow-right"></i> رجوع للرئيسية</button>
+            <div class="section-label">الهوية البصرية والجرافيك</div>
+            <h2 class="section-title">خدمات الهوية البصرية</h2>
+            <p class="section-desc">تصميم الشعارات والبطاقات والمواد التسويقية - يدوي و AI</p>
+        </div>
+        <div class="services-grid" id="brandingGrid"></div>
+    </div>
+
+    <!-- DEV PAGE -->
+    <div class="sub-page" id="page-dev">
+        <div class="page-header">
+            <button class="back-btn" onclick="goHome()"><i class="fas fa-arrow-right"></i> رجوع للرئيسية</button>
+            <div class="section-label">البرمجة وتطوير المواقع</div>
+            <h2 class="section-title">خدمات تطوير المواقع</h2>
+            <p class="section-desc">تطوير المواقع والمتاجر الإلكترونية - يدوي و AI</p>
+        </div>
+        <div class="services-grid" id="devGrid"></div>
+    </div>
+
+    <footer class="footer" id="mainFooter">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="logo"><i class="fas fa-bolt"></i> TaskMalty</div>
+                <p class="footer-desc">منصة TaskMalty هي وجهتك الأولى للخدمات الرقمية الاحترافية.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/ahmed.magdy.813088" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://t.me/axvman" target="_blank"><i class="fab fa-telegram"></i></a>
+                    <a href="https://www.instagram.com/axvman" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/axvman" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div><h4 class="footer-title">الخدمات</h4><ul class="footer-links"><li><a href="#" onclick="openPage('engineering'); return false;">الهندسية</a></li><li><a href="#" onclick="openPage('data'); return false;">البيانات</a></li><li><a href="#" onclick="openPage('video'); return false;">الفيديو</a></li><li><a href="#" onclick="openPage('dev'); return false;">المواقع</a></li></ul></div>
+            <div><h4 class="footer-title">الشركة</h4><ul class="footer-links"><li><a href="#portfolio" onclick="goHome()">أعمالنا</a></li><li><a href="#testimonials" onclick="goHome()">آراء العملاء</a></li><li><a href="#faq" onclick="goHome()">الأسئلة الشائعة</a></li></ul></div>
+            <div><h4 class="footer-title">الدعم</h4><ul class="footer-links"><li><a href="https://wa.me/201000414576" target="_blank">مركز المساعدة</a></li><li><a href="#">سياسة الخصوصية</a></li><li><a href="#">شروط الاستخدام</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><p>© 2026 TaskMalty. جميع الحقوق محفوظة.</p></div>
+    </footer>
+
+    <!-- Order Modal -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="orderModalTitle">طلب جديد</h3>
+                <button class="modal-close" onclick="closeOrderModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="order-steps" id="orderSteps">
+                    <div class="order-step active" id="step1Indicator"><div class="step-num">1</div><span>التفاصيل</span></div>
+                    <div class="order-step" id="step2Indicator"><div class="step-num">2</div><span>المراجعة</span></div>
+                    <div class="order-step" id="step3Indicator"><div class="step-num">3</div><span>الدفع</span></div>
+                </div>
+
+                <div class="step-content active" id="step1">
+                    <form class="order-form" id="orderForm" onsubmit="return false;">
+                        <div class="form-group">
+                            <label class="form-label">الخدمة المطلوبة *</label>
+                            <select class="form-select" id="orderService" required>
+                                <option value="">اختر الخدمة...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">الاسم الكامل *</label>
+                            <input type="text" class="form-input" id="customerName" placeholder="أدخل اسمك الكامل..." required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">البريد الإلكتروني</label>
+                            <input type="email" class="form-input" id="customerEmail" placeholder="example@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">رقم الهاتف *</label>
+                            <input type="tel" class="form-input" id="customerPhone" placeholder="+201000414576" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">طريقة التنفيذ</label>
+                            <select class="form-select" id="orderMethod">
+                                <option value="manual">يدوي</option>
+                                <option value="ai">مدعوم بالذكاء الاصطناعي</option>
+                                <option value="mixed">مختلط</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="quantityGroup">
+                            <label class="form-label" id="quantityLabel">الكمية</label>
+                            <input type="number" class="form-input" id="orderQuantity" value="1" min="1" placeholder="أدخل الكمية...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">وصف الطلب بالتفصيل</label>
+                            <textarea class="form-input" id="orderDescription" placeholder="صف متطلباتك بالتفصيل..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">الملفات المرفقة</label>
+                            <div class="file-upload" onclick="document.getElementById('orderFiles').click()">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>اضغط هنا لرفع الملفات</p>
+                                <small>PDF, DOC, JPG, PNG, ZIP - حتى 50MB</small>
+                                <input type="file" id="orderFiles" multiple style="display:none" onchange="handleFileUpload(this)">
+                            </div>
+                            <div id="uploadedFiles" style="margin-top:0.75rem;"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">طريقة التسليم</label>
+                            <div class="delivery-options" id="deliveryOptions">
+                                <div class="delivery-option" onclick="selectDelivery('whatsapp')">
+                                    <i class="fab fa-whatsapp"></i><span>واتساب</span>
+                                </div>
+                                <div class="delivery-option" onclick="selectDelivery('telegram')">
+                                    <i class="fab fa-telegram"></i><span>تيليجرام</span>
+                                </div>
+                                <div class="delivery-option" onclick="selectDelivery('email')">
+                                    <i class="fas fa-envelope"></i><span>بريد إلكتروني</span>
+                                </div>
+                            </div>
+                            <input type="hidden" id="selectedDelivery" required>
+                        </div>
+                        <div class="form-group" id="deliveryContactGroup" style="display:none;">
+                            <label class="form-label" id="deliveryContactLabel">رقم الواتساب</label>
+                            <input type="text" class="form-input" id="deliveryContact" placeholder="أدخل بيانات التواصل...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">مدة التسليم المطلوبة</label>
+                            <select class="form-select" id="orderDeadline">
+                                <option value="standard">عادي (7-14 يوم)</option>
+                                <option value="fast">سريع (3-7 أيام)</option>
+                                <option value="urgent">عاجل (1-3 أيام)</option>
+                                <option value="immediate">فوري (24 ساعة)</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="step-content" id="step2">
+                    <div style="background:rgba(230,179,37,0.05);border:1px solid var(--border);border-radius:14px;padding:1.25rem;margin-bottom:1.25rem;">
+                        <h4 style="margin-bottom:1rem;font-size:1rem;color:var(--accent);"><i class="fas fa-clipboard-list" style="margin-left:0.5rem;"></i>ملخص الطلب</h4>
+                        <div id="reviewSummary" style="line-height:2;"></div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:1.25rem;">
+                        <h4 style="margin-bottom:0.75rem;font-size:1rem;"><i class="fas fa-tag" style="margin-left:0.5rem;color:var(--accent);"></i>التكلفة</h4>
+                        <div style="display:flex;justify-content:space-between;padding:0.5rem 0;"><span style="color:var(--text-muted);">السعر الأساسي</span><span id="reviewBasePrice">$0</span></div>
+                        <div style="display:flex;justify-content:space-between;padding:0.5rem 0;"><span style="color:var(--text-muted);">سرعة التسليم</span><span id="reviewSpeedPrice">$0</span></div>
+                        <div style="display:flex;justify-content:space-between;padding:0.75rem 0;margin-top:0.5rem;border-top:2px solid var(--accent);font-weight:800;">
+                            <span>الإجمالي</span><span id="reviewTotalPrice" style="color:var(--accent);font-size:1.2rem;">$0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-content" id="step3">
+                    <div style="margin-bottom:1.25rem;">
+                        <h4 style="margin-bottom:1rem;font-size:1rem;">اختر طريقة الدفع</h4>
+                        <div class="payment-options">
+                            <div class="payment-option" onclick="selectPaymentMethod('vodafone_cash')">
+                                <i class="fas fa-mobile-alt"></i><span>فودافون كاش</span><small>01000414576</small>
+                            </div>
+                            <div class="payment-option" onclick="selectPaymentMethod('meeza_card')">
+                                <i class="fas fa-credit-card"></i><span>ميزة - البنك الأهلي</span><small>5078035060801802</small>
+                            </div>
+                        </div>
+                        <input type="hidden" id="selectedPayment">
+                    </div>
+                    <div class="card-fields" id="cardFields">
+                        <div class="payment-info-box">
+                            <h4><i class="fas fa-info-circle" style="margin-left:0.5rem;"></i>تعليمات الدفع</h4>
+                            <div id="paymentInstructions"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">رفع إيصال التحويل</label>
+                            <div class="proof-upload" onclick="document.getElementById('proofFile').click()">
+                                <i class="fas fa-camera"></i>
+                                <p>اضغط هنا لرفع صورة الإيصال</p>
+                                <small>JPG, PNG - حتى 5MB</small>
+                                <input type="file" id="proofFile" accept="image/*" style="display:none" onchange="handleProofUpload(this)">
+                            </div>
+                            <img id="proofPreview" class="proof-preview" alt="Preview">
+                        </div>
+                    </div>
+                    <div class="security-badge"><i class="fas fa-shield-alt" style="font-size:1.1rem;"></i><span>جميع المعاملات مشفرة وآمنة. لا يتم تخزين بيانات البطاقة على خوادمنا.</span></div>
+                </div>
+            </div>
+            <div class="modal-footer" id="orderModalFooter">
+                <button class="btn-secondary" onclick="closeOrderModal()">إلغاء</button>
+                <button class="btn-primary" id="nextStepBtn" onclick="nextStep()"><i class="fas fa-arrow-left"></i> التالي: مراجعة الطلب</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal-overlay" id="cartModal">
+        <div class="modal" style="max-width:480px;">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-shopping-cart" style="color:var(--accent);margin-left:0.5rem;"></i> سلة الطلبات</h3>
+                <button class="modal-close" onclick="closeCartModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems" style="max-height:350px;overflow-y:auto;"></div>
+                <div class="cart-total-row">
+                    <span style="font-weight:800;font-size:1.1rem;">الإجمالي</span>
+                    <span id="cartTotal" style="font-weight:900;font-size:1.4rem;color:var(--accent);">$0</span>
+                </div>
+            </div>
+            <div class="modal-footer" style="flex-direction:column;gap:0.6rem;">
+                <button class="btn-primary" style="width:100%;" onclick="checkoutFromCart()"><i class="fas fa-credit-card"></i> إتمام الدفع</button>
+                <button class="btn-secondary" style="width:100%;" onclick="closeCartModal()">مواصلة التسوق</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Success Modal -->
+    <div class="modal-overlay" id="paymentSuccessModal">
+        <div class="modal" style="max-width:420px;text-align:center;">
+            <div class="modal-body" style="padding:2.5rem 1.5rem;">
+                <div class="success-icon"><i class="fas fa-check"></i></div>
+                <h3 style="font-size:1.4rem;font-weight:800;margin-bottom:0.75rem;">تم استلام طلبك!</h3>
+                <p style="color:var(--text-muted);margin-bottom:1.25rem;line-height:1.7;font-size:0.9rem;">تم إرسال طلبك بنجاح. سنتواصل معك فور تأكيد الدفع.</p>
+                <div class="order-id-box">
+                    <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.4rem;">رقم الطلب</div>
+                    <div id="successOrderId" style="font-size:1.2rem;font-weight:900;color:var(--accent);font-family:monospace;"></div>
+                </div>
+                <div style="background:rgba(23,162,184,0.1);border:1px solid rgba(23,162,184,0.3);border-radius:12px;padding:1rem;margin:1.25rem 0;">
+                    <p style="font-size:0.85rem;margin-bottom:0.5rem;">💳 أكمل الدفع عبر:</p>
+                    <p style="font-size:0.9rem;font-weight:bold;color:var(--accent);direction:ltr;">01000414576 (فودافون كاش)</p>
+                    <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;">أرسل الإيصال على واتساب: +201000414576</p>
+                </div>
+                <button class="btn-primary" style="width:100%;margin-top:1.5rem;" onclick="closePaymentSuccessModal()">تم</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== SERVICE DATA ====================
+        const allServices = {
+            'autocad': { name: 'AutoCAD Drafting', category: 'engineering', manual: 80, ai: 50, delivery: '3-5 أيام', complexity: 'متوسط', icon: 'fa-drafting-compass', hasAI: true },
+            'autocad3d': { name: 'AutoCAD 3D', category: 'engineering', manual: 120, ai: 75, delivery: '5-7 أيام', complexity: 'معقد', icon: 'fa-cube', hasAI: true },
+            'solidworks': { name: 'SolidWorks', category: 'engineering', manual: 150, ai: 90, delivery: '5-7 أيام', complexity: 'معقد', icon: 'fa-cogs', hasAI: true },
+            'solidworks-auto': { name: 'SolidWorks Automation', category: 'engineering', manual: 200, ai: 130, delivery: '7-10 أيام', complexity: 'متقدم', icon: 'fa-robot', hasAI: true },
+            'revit': { name: 'Revit', category: 'engineering', manual: 180, ai: 110, delivery: '7-10 أيام', complexity: 'معقد', icon: 'fa-building', hasAI: true },
+            'dataentry': { name: 'Data Entry', category: 'data', manual: 30, ai: 20, delivery: '1-3 أيام', complexity: 'بسيط', icon: 'fa-keyboard', hasAI: true },
+            'dataanalysis': { name: 'Data Analysis', category: 'data', manual: 80, ai: 50, delivery: '3-5 أيام', complexity: 'متوسط', icon: 'fa-chart-bar', hasAI: true },
+            'excel': { name: 'Microsoft Excel', category: 'data', manual: 45, ai: 30, delivery: '2-4 أيام', complexity: 'متوسط', icon: 'fa-file-excel', hasAI: true },
+            'powerpoint': { name: 'Microsoft PowerPoint', category: 'data', manual: 40, ai: 25, delivery: '2-4 أيام', complexity: 'بسيط', icon: 'fa-file-powerpoint', hasAI: true },
+            'word': { name: 'Microsoft Word', category: 'data', manual: 35, ai: 22, delivery: '1-3 أيام', complexity: 'بسيط', icon: 'fa-file-word', hasAI: true },
+            'access': { name: 'Microsoft Access', category: 'data', manual: 60, ai: 40, delivery: '3-5 أيام', complexity: 'متوسط', icon: 'fa-database', hasAI: true },
+            'video-short': { name: 'Short-form Video Editing', category: 'video', manual: 60, ai: 0, delivery: '2-3 أيام', complexity: 'بسيط', icon: 'fa-mobile-alt', hasAI: false, unit: 'كليب', unitPrice: 15 },
+            'video-long': { name: 'Long-form Video Editing', category: 'video', manual: 120, ai: 0, delivery: '5-7 أيام', complexity: 'متوسط', icon: 'fa-film', hasAI: false, unit: 'دقيقة', unitPrice: 8 },
+            'motion': { name: 'Motion Basics', category: 'video', manual: 90, ai: 0, delivery: '3-5 أيام', complexity: 'متوسط', icon: 'fa-magic', hasAI: false, unit: 'مشروع', unitPrice: 90 },
+            'photo': { name: 'Manual Photo Editing', category: 'photo', manual: 40, ai: 25, delivery: '1-2 أيام', complexity: 'بسيط', icon: 'fa-image', hasAI: true },
+            'canva': { name: 'Canva Design', category: 'photo', manual: 35, ai: 20, delivery: '1-2 أيام', complexity: 'بسيط', icon: 'fa-palette', hasAI: true },
+            'social': { name: 'Social Media Designs', category: 'photo', manual: 50, ai: 30, delivery: '2-3 أيام', complexity: 'متوسط', icon: 'fa-share-alt', hasAI: true },
+            'logo': { name: 'Logo Design', category: 'branding', manual: 100, ai: 60, delivery: '3-5 أيام', complexity: 'متوسط', icon: 'fa-crown', hasAI: true },
+            'business-card': { name: 'Business Cards', category: 'branding', manual: 45, ai: 28, delivery: '2-3 أيام', complexity: 'بسيط', icon: 'fa-id-card', hasAI: true, unit: 'كرت', unitPrice: 5 },
+            'nfc-card': { name: 'NFC Business Cards', category: 'branding', manual: 80, ai: 50, delivery: '3-5 أيام', complexity: 'متوسط', icon: 'fa-wifi', hasAI: true, unit: 'كرت', unitPrice: 12 },
+            'event-card': { name: 'Event Cards', category: 'branding', manual: 55, ai: 35, delivery: '2-3 أيام', complexity: 'بسيط', icon: 'fa-calendar-alt', hasAI: true, unit: 'كرت', unitPrice: 7 },
+            'marketing': { name: 'Marketing Design Package', category: 'branding', manual: 150, ai: 90, delivery: '5-7 أيام', complexity: 'معقد', icon: 'fa-bullhorn', hasAI: true },
+            'personal-web': { name: 'Personal Website', category: 'dev', manual: 300, ai: 180, delivery: '7-14 يوم', complexity: 'معقد', icon: 'fa-user', platform: 'Custom', hasAI: true },
+            'ecommerce': { name: 'E-commerce Store', category: 'dev', manual: 500, ai: 300, delivery: '14-21 يوم', complexity: 'متقدم', icon: 'fa-shopping-cart', platform: 'Shopify', hasAI: true },
+            'ai-web': { name: 'AI-Assisted Website', category: 'dev', manual: 250, ai: 150, delivery: '5-10 أيام', complexity: 'معقد', icon: 'fa-brain', platform: 'WordPress', hasAI: true },
+            'wordpress': { name: 'WordPress Development', category: 'dev', manual: 280, ai: 170, delivery: '7-14 يوم', complexity: 'معقد', icon: 'fa-wordpress', platform: 'WordPress', hasAI: true },
+            'shopify': { name: 'Shopify Store', category: 'dev', manual: 450, ai: 270, delivery: '10-14 يوم', complexity: 'معقد', icon: 'fa-shopify', platform: 'Shopify', hasAI: true },
+            'odoo': { name: 'Odoo Implementation', category: 'dev', manual: 600, ai: 360, delivery: '14-21 يوم', complexity: 'متقدم', icon: 'fa-server', platform: 'Odoo', hasAI: true },
+            'tager': { name: 'Tager Platform', category: 'dev', manual: 350, ai: 210, delivery: '7-14 يوم', complexity: 'معقد', icon: 'fa-layer-group', platform: 'Tager', hasAI: true }
+        };
+
+        const dataPackages = [
+            { name: 'Basic', price: 30, desc: 'للمهام البسيطة', key: 'data-basic',
+              features: [
+                { text: '1 deliverable رئيسي', included: true },
+                { text: 'حتى 2 مهام فرعية', included: true },
+                { text: 'تسليم خلال 5 أيام', included: true },
+                { text: 'مراجعة واحدة', included: true },
+                { text: 'دعم عبر البريد', included: true },
+                { text: 'مهام فرعية إضافية', included: false },
+                { text: 'تسليم سريع', included: false },
+                { text: 'مراجعات غير محدودة', included: false }
+              ]
+            },
+            { name: 'Standard', price: 60, desc: 'الأكثر شيوعاً', featured: true, key: 'data-standard',
+              features: [
+                { text: '2-3 deliverables رئيسية', included: true },
+                { text: 'حتى 5 مهام فرعية', included: true },
+                { text: 'تسليم خلال 3 أيام', included: true },
+                { text: '3 مراجعات', included: true },
+                { text: 'دعم عبر الواتساب', included: true },
+                { text: 'تقرير تقدم العمل', included: true },
+                { text: 'تسليم سريع', included: false },
+                { text: 'مراجعات غير محدودة', included: false }
+              ]
+            },
+            { name: 'Premium', price: 120, desc: 'للمشاريع الكبيرة', key: 'data-premium',
+              features: [
+                { text: 'سير عمل كامل', included: true },
+                { text: 'مهام فرعية غير محدودة', included: true },
+                { text: 'تسليم خلال 24 ساعة', included: true },
+                { text: 'مراجعات غير محدودة', included: true },
+                { text: 'دعم مخصص 24/7', included: true },
+                { text: 'تقرير تقدم العمل', included: true },
+                { text: 'استشارة مجانية', included: true },
+                { text: 'ضمان الجودة', included: true }
+              ]
+            }
+        ];
+
+        const portfolioData = [
+            { title: 'تصميم هندسي معقد', category: 'الخدمات الهندسية', image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&h=400&fit=crop' },
+            { title: 'متجر إلكتروني متكامل', category: 'تطوير المواقع', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop' },
+            { title: 'هوية بصرية كاملة', category: 'التصميم الجرافيكي', image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop' },
+            { title: 'تحرير فيديو احترافي', category: 'تحرير الفيديو', image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&h=400&fit=crop' },
+            { title: 'تحليل بيانات شامل', category: 'البيانات والأوفيس', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop' },
+            { title: 'تصميم 3D متقدم', category: 'الخدمات الهندسية', image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop' }
+        ];
+
+        const testimonialsData = [
+            { name: 'أحمد محمد', role: 'مدير شركة', text: 'خدمة ممتازة وسرعة في التنفيذ. الطلب كان معقداً لكنهم نفذوه بإتقان.', rating: 5, initial: 'أ' },
+            { name: 'سارة علي', role: 'مصممة جرافيك', text: 'الجودة فاقت توقعاتي. الأسعار منافسة والتسليم كان قبل الموعد.', rating: 5, initial: 'س' },
+            { name: 'خالد إبراهيم', role: 'مهندس معماري', text: 'أعمالهم في AutoCAD وRevit احترافية جداً. التفاصيل دقيقة.', rating: 5, initial: 'خ' },
+            { name: 'نورا حسن', role: 'صاحبة متجر', text: 'صمموا لي متجر Shopify كامل بجودة عالية. التصميم جذاب.', rating: 5, initial: 'ن' },
+            { name: 'عمر فؤاد', role: 'مدير تسويق', text: 'التصميمات التسويقية ساعدتنا في زيادة المبيعات بنسبة 30%.', rating: 5, initial: 'ع' },
+            { name: 'ليلى محمود', role: 'باحثة', text: 'خدمة تحليل البيانات كانت ممتازة. التقرير كان شامل وواضح.', rating: 4, initial: 'ل' }
+        ];
+
+        const faqData = [
+            { q: 'ما الفرق بين الخدمات اليدوية والمدعومة بالذكاء الاصطناعي؟', a: 'الخدمات اليدوية يقوم بها فريقنا المتخصص بشكل كامل بدون استخدام أدوات الذكاء الاصطناعي. أما الخدمات المدعومة بالذكاء الاصطناعي فتستخدم أدوات AI لتسريع العمل وتقليل التكلفة، مع مراجعة بشرية لضمان الجودة.' },
+            { q: 'كيف يتم حساب الأسعار؟', a: 'الأسعار تعتمد على عدة عوامل: نوع الخدمة، عدد المخرجات، مستوى التعقيد، وسرعة التسليم. بعض الخدمات مثل الكروت والفيديو القصير تحسب بالوحدة.' },
+            { q: 'ما هي سياسة التسليم؟', a: 'نلتزم بالمواعيد المحددة. في حالة التأخير، نقدم خصماً 10% على كل يوم تأخير.' },
+            { q: 'هل يمكنني طلب تعديلات؟', a: 'نعم، نقدم مراجعات مجانية حسب الباقة المختارة. الباقة الأساسية تتضمن مراجعة واحدة، والقياسية 3 مراجعات، والبريميوم مراجعات غير محدودة.' },
+            { q: 'ما هي طرق الدفع المتاحة؟', a: 'نقبل الدفع عبر Apple Pay والبطاقات الائتمانية (Visa/Mastercard). جميع المعاملات آمنة ومشفرة.' },
+            { q: 'هل يمكنني إلغاء الطلب؟', a: 'يمكنك إلغاء الطلب قبل بدء التنفيذ واسترداد كامل المبلغ. إذا بدأ التنفيذ، يتم استرداد 50%.' }
+        ];
+
+        const speedMultipliers = { standard: 1, fast: 1.3, urgent: 1.8, immediate: 2.5 };
+        const speedNames = { standard: 'عادي (7-14 يوم)', fast: 'سريع (3-7 أيام)', urgent: 'عاجل (1-3 أيام)', immediate: 'فوري (24 ساعة)' };
+        const methodNames = { manual: 'يدوي', ai: 'مدعوم بالذكاء الاصطناعي', mixed: 'مختلط' };
+        const deliveryNames = { whatsapp: 'واتساب', telegram: 'تيليجرام', email: 'بريد إلكتروني' };
+
+        // ==================== PAGE NAVIGATION ====================
+        function openPage(pageId) {
+            document.getElementById('homePage').style.display = 'none';
+            document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + pageId).classList.add('active');
+            document.getElementById('mainFooter').style.display = 'block';
+            window.scrollTo(0, 0);
+            renderPageServices(pageId);
+        }
+
+        function goHome() {
+            document.getElementById('homePage').style.display = 'block';
+            document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active'));
+            document.getElementById('mainFooter').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        // ==================== RENDER PAGE SERVICES ====================
+        function renderPageServices(pageId) {
+            if (pageId === 'engineering') {
+                const container = document.getElementById('engineeringGrid');
+                const services = Object.entries(allServices).filter(([k, v]) => v.category === 'engineering');
+                container.innerHTML = services.map(([key, s]) => `
+                    <div class="service-card">
+                        <div class="service-header">
+                            <div><div class="service-name"><i class="fas ${s.icon}" style="color:var(--accent);margin-left:0.5rem;"></i>${s.name}</div></div>
+                            <span class="service-badge">${s.complexity}</span>
+                        </div>
+                        <div class="service-pricing">
+                            <div class="price-row"><span class="price-label">اليدوي</span><span class="price-value manual">$${s.manual}</span></div>
+                            <div class="price-row"><span class="price-label">+ AI</span><span class="price-value ai">$${s.ai}</span></div>
+                        </div>
+                        <div class="service-meta">
+                            <span class="meta-tag"><i class="fas fa-clock"></i> ${s.delivery}</span>
+                            <span class="meta-tag"><i class="fas fa-robot"></i> AI متاح</span>
+                        </div>
+                        <div class="service-actions">
+                            <button class="btn-sm btn-gold" onclick="openOrderModal('${key}')"><i class="fas fa-arrow-left"></i> اطلب الآن</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            else if (pageId === 'data') {
+                const container = document.getElementById('dataGrid');
+                container.innerHTML = dataPackages.map(p => `
+                    <div class="service-card ${p.featured ? 'premium' : ''}">
+                        ${p.featured ? '<span class="service-badge" style="position:absolute;top:1rem;left:1rem;">الأكثر شيوعاً</span>' : ''}
+                        <div class="service-header">
+                            <div><div class="service-name"><i class="fas fa-database" style="color:var(--accent);margin-left:0.5rem;"></i>باقة ${p.name}</div></div>
+                        </div>
+                        <div class="service-pricing">
+                            <div class="price-row"><span class="price-label">السعر</span><span class="price-value manual" style="font-size:1.5rem;">$${p.price}</span></div>
+                        </div>
+                        <div class="service-meta">
+                            <span class="meta-tag"><i class="fas fa-info-circle"></i> ${p.desc}</span>
+                        </div>
+                        <ul class="package-features" style="list-style:none;margin:1rem 0;font-size:0.85rem;">
+                            ${p.features.map(f => `<li style="padding:0.4rem 0;display:flex;align-items:center;gap:0.5rem;"><i class="fas ${f.included ? 'fa-check' : 'fa-times'}" style="color:${f.included ? 'var(--success)' : 'var(--danger)'};font-size:0.8rem;"></i> ${f.text}</li>`).join('')}
+                        </ul>
+                        <div class="service-actions">
+                            <button class="btn-sm btn-gold" onclick="openOrderModal('${p.key}')"><i class="fas fa-arrow-left"></i> اطلب الآن</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            else if (pageId === 'video') {
+                const container = document.getElementById('videoGrid');
+                const services = Object.entries(allServices).filter(([k, v]) => v.category === 'video');
+                container.innerHTML = services.map(([key, s]) => {
+                    const unitText = s.unit ? ` (${s.unitPrice}$ / ${s.unit})` : '';
+                    return `
+                    <div class="service-card">
+                        <div class="service-header">
+                            <div><div class="service-name"><i class="fas ${s.icon}" style="color:var(--accent);margin-left:0.5rem;"></i>${s.name}</div></div>
+                            <span class="service-badge manual">يدوي فقط</span>
+                        </div>
+                        <div class="service-pricing">
+                            <div class="price-row"><span class="price-label">السعر الأساسي</span><span class="price-value manual">$${s.manual}${unitText}</span></div>
+                        </div>
+                        <div class="service-meta">
+                            <span class="meta-tag"><i class="fas fa-clock"></i> ${s.delivery}</span>
+                            <span class="meta-tag"><i class="fas fa-layer-group"></i> ${s.complexity}</span>
+                            ${s.unit ? `<span class="meta-tag"><i class="fas fa-calculator"></i> ${s.unitPrice}$ / ${s.unit}</span>` : ''}
+                        </div>
+                        <div class="service-actions">
+                            <button class="btn-sm btn-gold" onclick="openOrderModal('${key}')"><i class="fas fa-arrow-left"></i> اطلب الآن</button>
+                        </div>
+                    </div>
+                `}).join('');
+            }
+            else if (pageId === 'photo') {
+                const container = document.getElementById('photoGrid');
+                const services = Object.entries(allServices).filter(([k, v]) => v.category === 'photo');
+                container.innerHTML = services.map(([key, s]) => `
+                    <div class="service-card">
+                        <div class="service-header">
+                            <div><div class="service-name"><i class="fas ${s.icon}" style="color:var(--accent);margin-left:0.5rem;"></i>${s.name}</div></div>
+                            <span class="service-badge">${s.complexity}</span>
+                        </div>
+                        <div class="service-pricing">
+                            <div class="price-row"><span class="price-label">اليدوي</span><span class="price-value manual">$${s.manual}</span></div>
+                            <div class="price-row"><span class="price-label">+ AI</span><span class="price-value ai">$${s.ai}</span></div>
+                        </div>
+                        <div class="service-meta">
+                            <span class="meta-tag"><i class="fas fa-clock"></i> ${s.delivery}</span>
+                            <span class="meta-tag"><i class="fas fa-robot"></i> AI متاح</span>
+                        </div>
+                        <div class="service-actions">
+                            <button class="btn-sm btn-gold" onclick="openOrderModal('${key}')"><i class="fas fa-arrow-left"></i> اطلب الآن</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            else if (pageId === 'branding') {
+                const container = document.getElementById('brandingGrid');
+                const services = Object.entries(allServices).filter(([k, v]) => v.category === 'branding');
+                container.innerHTML = services.map(([key, s]) => {
+                    const unitText = s.unit ? ` (${s.unitPrice}$ / ${s.unit})` : '';
+                    return `
+                    <div class="service-card">
+                        <div class="service-header">
+                            <div><div class="service-name"><i class="fas ${s.icon}" style="color:var(--accent);margin-left:0.5rem;"></i>${s.name}</div></div>
+                            <span class="service-badge">${s.complexity}</span>
+                        </div>
+                        <div class="service-pricing">
+                            <div class="price-row"><span class="price-label">اليدوي</span><span class="price-value manual">$${s.manual}${unitText}</span></div>
+                            ${s.hasAI ? `<div class="price-row"><span class="price-label">+ AI</span><span class="price-value ai">$${s.ai}${unitText}</span></div>` : ''}
+                        </div>
+                        <div class="service-meta">
+                            <span class="meta-tag"><i class="fas fa-clock"></i> ${s.delivery}</span>
+                            ${s.hasAI ? '<span class="meta-tag"><i class="fas fa-robot"></i> AI متاح</span>' : ''}
+                            ${s.unit ? `<span class="meta-tag"><i class="fas fa-calculator"></i> ${s.unitPrice}$ / ${s.unit}</span>` : ''}
+                        </div>
+                        <div class="service-actions">
+                            <button class="btn-sm btn-gold" onclick="openOrderModal('${key}')"><i class="fas fa-arrow-left"></i> اطلب الآن</button>
+                        </div>
+                    </div>
+                `}).join('');
+            }
+            else if (pageId === 'dev') {
+                const container = document.getElementById('devGrid');
+                const services = Object.entries(allServices).filter(([k, v]) => v.category === 'dev');
+                container.innerHTML = services.map(([key, s]) => `
+                    <div class="service-card">
+                        <div class="service-header">
+                            <div><div class="service-name"><i class="fas ${s.icon}" style="color:var(--accent);margin-left:0.5rem;"></i>${s.name}</div></div>
+                            <span class="service-badge">${s.platform}</span>
+                        </div>
+                        <div class="service-pricing">
+                            <div class="price-row"><span class="price-label">اليدوي</span><span class="price-value manual">$${s.manual}</span></div>
+                            <div class="price-row"><span class="price-label">+ AI</span><span class="price-value ai">$${s.ai}</span></div>
+                        </div>
+                        <div class="service-meta">
+                            <span class="meta-tag"><i class="fas fa-clock"></i> ${s.delivery}</span>
+                            <span class="meta-tag"><i class="fas fa-robot"></i> AI ${Math.round((1 - s.ai/s.manual)*100)}%</span>
+                            <span class="meta-tag"><i class="fas fa-layer-group"></i> ${s.complexity}</span>
+                        </div>
+                        <div class="service-actions">
+                            <button class="btn-sm btn-gold" onclick="openOrderModal('${key}')"><i class="fas fa-arrow-left"></i> اطلب الآن</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // ==================== HOME PAGE RENDERS ====================
+        function renderPortfolio() {
+            document.getElementById('portfolioGrid').innerHTML = portfolioData.map(p => `
+                <div class="portfolio-item reveal">
+                    <img src="${p.image}" alt="${p.title}" loading="lazy">
+                    <div class="portfolio-overlay">
+                        <div class="portfolio-title">${p.title}</div>
+                        <div class="portfolio-category">${p.category}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderTestimonials() {
+            document.getElementById('testimonialsGrid').innerHTML = testimonialsData.map(t => `
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-stars">${'★'.repeat(t.rating)}${'☆'.repeat(5-t.rating)}</div>
+                    <p class="testimonial-text">"${t.text}"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">${t.initial}</div>
+                        <div class="author-info"><h4>${t.name}</h4><p>${t.role}</p></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderFAQ() {
+            document.getElementById('faqContainer').innerHTML = faqData.map((f, i) => `
+                <div class="faq-item reveal">
+                    <div class="faq-question" onclick="toggleFAQ(${i})"><span>${f.q}</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><div class="faq-answer-content">${f.a}</div></div>
+                </div>
+            `).join('');
+        }
+
+        // ==================== CALCULATOR ====================
+        function updateCalculator() {
+            const serviceType = document.getElementById('calcServiceType').value;
+            const method = document.getElementById('calcMethod').value;
+            const mainServices = parseInt(document.getElementById('mainServices').value);
+            const subServices = parseInt(document.getElementById('subServices').value);
+            const complexity = parseFloat(document.getElementById('calcComplexity').value);
+            const speed = parseFloat(document.getElementById('calcSpeed').value);
+
+            document.getElementById('mainServicesValue').textContent = mainServices;
+            document.getElementById('subServicesValue').textContent = subServices;
+
+            const basePrices = { engineering: 50, data: 30, video: 40, photo: 25, branding: 45, dev: 100 };
+            const basePrice = basePrices[serviceType] || 50;
+            const aiDiscount = method === 'ai' ? 0.6 : method === 'mixed' ? 0.8 : 1;
+            const total = Math.round((basePrice + (mainServices * 20) + (subServices * 10)) * complexity * speed * aiDiscount);
+
+            document.getElementById('calcResult').textContent = '$' + total;
+            document.getElementById('calcBreakdown').textContent = `السعر الأساسي: $${basePrice} + (${mainServices} × $20) + (${subServices} × $10) × ${complexity} × ${speed}`;
+        }
+
+        // ==================== MULTI-STEP ORDER ====================
+        let currentStep = 1;
+        let orderData = {};
+        let modalOpenCount = 0;
+
+        function populateServiceSelect() {
+            const select = document.getElementById('orderService');
+            select.innerHTML = '<option value="">اختر الخدمة...</option>';
+            Object.entries(allServices).forEach(([key, s]) => {
+                select.innerHTML += `<option value="${key}">${s.name}</option>`;
+            });
+            dataPackages.forEach(p => {
+                select.innerHTML += `<option value="${p.key}">باقة ${p.name} - البيانات</option>`;
+            });
+        }
+
+        function openOrderModal(serviceKey = '') {
+            modalOpenCount++;
+            currentStep = 1;
+            orderData = {};
+            populateServiceSelect();
+            updateStepUI();
+
+            document.getElementById('orderModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Reset form completely
+            document.getElementById('orderForm').reset();
+            document.getElementById('uploadedFiles').innerHTML = '';
+            document.querySelectorAll('.delivery-option').forEach(el => el.classList.remove('selected'));
+            document.getElementById('deliveryContactGroup').style.display = 'none';
+            document.getElementById('selectedDelivery').value = '';
+            document.getElementById('selectedPayment').value = '';
+            document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+            document.getElementById('cardFields').classList.remove('active');
+
+            // Pre-select service
+            if (serviceKey) {
+                const select = document.getElementById('orderService');
+                for (let i = 0; i < select.options.length; i++) {
+                    if (select.options[i].value === serviceKey) {
+                        select.selectedIndex = i;
+                        updateQuantityField(serviceKey);
+                        break;
+                    }
+                }
+            }
+
+            console.log('Modal opened, count:', modalOpenCount);
+        }
+
+        function updateQuantityField(serviceKey) {
+            const service = allServices[serviceKey];
+            const group = document.getElementById('quantityGroup');
+            const label = document.getElementById('quantityLabel');
+            const input = document.getElementById('orderQuantity');
+
+            if (service && service.unit) {
+                group.style.display = 'block';
+                label.textContent = `عدد ${service.unit === 'كليب' ? 'الكليبات' : service.unit === 'كرت' ? 'الكروت' : 'الوحدات'}`;
+                input.placeholder = `أدخل عدد ${service.unit === 'كليب' ? 'الكليبات' : service.unit === 'كرت' ? 'الكروت' : 'الوحدات'}...`;
+            } else {
+                group.style.display = 'none';
+                input.value = 1;
+            }
+        }
+
+        // Listen for service change to update quantity field
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('orderService').addEventListener('change', function() {
+                updateQuantityField(this.value);
+            });
+        });
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').classList.remove('active');
+            document.body.style.overflow = '';
+            currentStep = 1;
+            updateStepUI();
+        }
+
+        function updateStepUI() {
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('step' + currentStep).classList.add('active');
+
+            document.querySelectorAll('.order-step').forEach((el, i) => {
+                el.classList.remove('active', 'completed');
+                if (i + 1 < currentStep) el.classList.add('completed');
+                else if (i + 1 === currentStep) el.classList.add('active');
+            });
+
+            const footer = document.getElementById('orderModalFooter');
+            if (currentStep === 1) {
+                footer.innerHTML = `
+                    <button class="btn-secondary" onclick="closeOrderModal()">إلغاء</button>
+                    <button class="btn-primary" onclick="nextStep()"><i class="fas fa-arrow-left"></i> التالي: مراجعة الطلب</button>
+                `;
+            } else if (currentStep === 2) {
+                footer.innerHTML = `
+                    <button class="btn-secondary" onclick="prevStep()"><i class="fas fa-arrow-right"></i> رجوع</button>
+                    <button class="btn-primary" onclick="nextStep()"><i class="fas fa-arrow-left"></i> التالي: الدفع</button>
+                `;
+            } else if (currentStep === 3) {
+                footer.innerHTML = `
+                    <button class="btn-secondary" onclick="prevStep()"><i class="fas fa-arrow-right"></i> رجوع</button>
+                    <button class="btn-primary" onclick="processPayment()"><i class="fas fa-lock"></i> ادفع الآن</button>
+                `;
+            }
+        }
+
+        function nextStep() {
+            if (currentStep === 1) {
+                const service = document.getElementById('orderService').value;
+                const description = document.getElementById('orderDescription').value;
+                const delivery = document.getElementById('selectedDelivery').value;
+
+                if (!service) { showToast('الرجاء اختيار الخدمة', 'error'); return; }
+                if (!description) { showToast('الرجاء كتابة وصف الطلب', 'error'); return; }
+                if (!delivery) { showToast('الرجاء اختيار طريقة التسليم', 'error'); return; }
+
+                const method = document.getElementById('orderMethod').value;
+                const deadline = document.getElementById('orderDeadline').value;
+                const contact = document.getElementById('deliveryContact').value;
+                const quantity = parseInt(document.getElementById('orderQuantity').value) || 1;
+
+                let serviceInfo = allServices[service];
+                let basePrice = 0;
+                let serviceName = '';
+
+                if (serviceInfo) {
+                    serviceName = serviceInfo.name;
+                    const unitPrice = serviceInfo.unit ? serviceInfo.unitPrice : serviceInfo.manual;
+                    basePrice = serviceInfo.unit ? unitPrice * quantity : (method === 'ai' && serviceInfo.hasAI ? serviceInfo.ai : serviceInfo.manual);
+                    if (!serviceInfo.unit && method === 'ai' && serviceInfo.hasAI) basePrice = serviceInfo.ai;
+                    else if (!serviceInfo.unit) basePrice = serviceInfo.manual;
+                } else {
+                    const pkg = dataPackages.find(p => p.key === service);
+                    if (pkg) { serviceName = 'باقة ' + pkg.name; basePrice = pkg.price; }
+                }
+
+                const speedMult = speedMultipliers[deadline] || 1;
+                const finalPrice = Math.round(basePrice * speedMult);
+
+                orderData = {
+                    service: serviceName,
+                    serviceKey: service,
+                    method: method,
+                    description: description,
+                    delivery: delivery,
+                    contact: contact,
+                    deadline: deadline,
+                    quantity: quantity,
+                    basePrice: basePrice,
+                    speedMult: speedMult,
+                    finalPrice: finalPrice
+                };
+
+                renderReview();
+            }
+
+            if (currentStep < 3) {
+                currentStep++;
+                updateStepUI();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepUI();
+            }
+        }
+
+        function renderReview() {
+            const summary = document.getElementById('reviewSummary');
+            const qtyText = orderData.quantity > 1 ? ` (×${orderData.quantity})` : '';
+            summary.innerHTML = `
+                <div style="display:flex;justify-content:space-between;padding:0.4rem 0;"><span style="color:var(--text-muted);">الخدمة:</span><span style="font-weight:600;">${orderData.service}${qtyText}</span></div>
+                <div style="display:flex;justify-content:space-between;padding:0.4rem 0;"><span style="color:var(--text-muted);">طريقة التنفيذ:</span><span>${methodNames[orderData.method]}</span></div>
+                <div style="display:flex;justify-content:space-between;padding:0.4rem 0;"><span style="color:var(--text-muted);">طريقة التسليم:</span><span>${deliveryNames[orderData.delivery]}</span></div>
+                <div style="display:flex;justify-content:space-between;padding:0.4rem 0;"><span style="color:var(--text-muted);">مدة التسليم:</span><span>${speedNames[orderData.deadline]}</span></div>
+                <div style="padding:0.4rem 0;"><span style="color:var(--text-muted);">الوصف:</span><p style="margin-top:0.3rem;font-size:0.85rem;">${orderData.description}</p></div>
+            `;
+
+            const speedExtra = Math.round(orderData.basePrice * (orderData.speedMult - 1));
+            document.getElementById('reviewBasePrice').textContent = '$' + orderData.basePrice;
+            document.getElementById('reviewSpeedPrice').textContent = '+$' + speedExtra;
+            document.getElementById('reviewTotalPrice').textContent = '$' + orderData.finalPrice;
+        }
+
+        function selectDelivery(method) {
+            document.querySelectorAll('.delivery-option').forEach(el => el.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            document.getElementById('selectedDelivery').value = method;
+            const group = document.getElementById('deliveryContactGroup');
+            const label = document.getElementById('deliveryContactLabel');
+            group.style.display = 'block';
+            if (method === 'whatsapp') { label.textContent = 'رقم الواتساب'; document.getElementById('deliveryContact').placeholder = '+20123456789'; }
+            else if (method === 'telegram') { label.textContent = 'يوزرنيم تيليجرام'; document.getElementById('deliveryContact').placeholder = '@username'; }
+            else { label.textContent = 'البريد الإلكتروني'; document.getElementById('deliveryContact').placeholder = 'example@email.com'; }
+        }
+
+        function selectPaymentMethod(method) {
+            document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            document.getElementById('selectedPayment').value = method;
+            const cardFields = document.getElementById('cardFields');
+            if (method === 'card') cardFields.classList.add('active');
+            else cardFields.classList.remove('active');
+        }
+
+        // ==================== BACKEND API CONFIGURATION ====================
+        const API_BASE_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000/api' 
+            : 'https://your-render-url.onrender.com/api';
+
+        async function apiCall(endpoint, options = {}) {
+            try {
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                    headers: { 'Content-Type': 'application/json', ...options.headers },
+                    ...options
+                });
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                showToast('خطأ في الاتصال بالسيرفر', 'error');
+                return { success: false, message: 'خطأ في الاتصال' };
+            }
+        }
+
+        let paymentProofImage = null;
+
+        function handleProofUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                paymentProofImage = e.target.result;
+                document.getElementById('proofPreview').src = e.target.result;
+                document.getElementById('proofPreview').classList.add('active');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function selectPaymentMethod(method) {
+            document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            document.getElementById('selectedPayment').value = method;
+
+            const instructions = document.getElementById('paymentInstructions');
+            const cardFields = document.getElementById('cardFields');
+
+            if (method === 'vodafone_cash') {
+                cardFields.classList.add('active');
+                instructions.innerHTML = `
+                    <p style="margin-bottom:8px;">1. افتح تطبيق فودافون كاش</p>
+                    <p style="margin-bottom:8px;">2. اختر "تحويل"</p>
+                    <p style="margin-bottom:8px;">3. أدخل الرقم: <strong style="color:#e6b325;">01000414576</strong></p>
+                    <p style="margin-bottom:8px;">4. أدخل المبلغ: <strong style="color:#e6b325;">$${orderData.finalPrice || 0}</strong></p>
+                    <p>5. أكد التحويل وارفع الإيصال</p>
+                `;
+            } else if (method === 'meeza_card') {
+                cardFields.classList.add('active');
+                instructions.innerHTML = `
+                    <p style="margin-bottom:8px;">1. اذهب لأقرب فرع بنك أهلي</p>
+                    <p style="margin-bottom:8px;">2. اطلب تحويل على رقم ميزة</p>
+                    <p style="margin-bottom:8px;">3. الرقم: <strong style="color:#e6b325;">5078035060801802</strong></p>
+                    <p style="margin-bottom:8px;">4. أدخل المبلغ: <strong style="color:#e6b325;">$${orderData.finalPrice || 0}</strong></p>
+                    <p>5. احتفظ بإيصال التحويل وارفعه</p>
+                `;
+            }
+        }
+
+        async function processPayment() {
+            const paymentMethod = document.getElementById('selectedPayment').value;
+            if (!paymentMethod) { showToast('الرجاء اختيار طريقة الدفع', 'error'); return; }
+
+            const customerName = document.getElementById('customerName').value;
+            const customerEmail = document.getElementById('customerEmail').value;
+            const customerPhone = document.getElementById('customerPhone').value;
+
+            if (!customerName || !customerPhone) {
+                showToast('الرجاء إدخال الاسم ورقم الهاتف', 'error');
+                return;
+            }
+
+            const btn = document.querySelector('#orderModalFooter .btn-primary');
+            btn.innerHTML = '<div class="spinner" style="width:18px;height:18px;border-width:2px;display:inline-block;vertical-align:middle;margin-left:0.5rem;"></div> جاري الإرسال...';
+            btn.disabled = true;
+
+            try {
+                const response = await apiCall('/order', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        service: orderData.service,
+                        serviceKey: orderData.serviceKey,
+                        method: orderData.method,
+                        description: orderData.description,
+                        delivery: orderData.delivery,
+                        deliveryContact: orderData.contact,
+                        deadline: orderData.deadline,
+                        quantity: orderData.quantity,
+                        basePrice: orderData.basePrice,
+                        finalPrice: orderData.finalPrice,
+                        customerName: customerName,
+                        customerEmail: customerEmail,
+                        customerPhone: customerPhone,
+                        paymentMethod: paymentMethod
+                    })
+                });
+
+                if (response.success) {
+                    // Upload payment proof if available
+                    if (paymentProofImage && response.orderId) {
+                        await apiCall('/payment-proof', {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                orderId: response.orderId,
+                                proofImage: paymentProofImage,
+                                notes: ''
+                            })
+                        });
+                    }
+
+                    closeOrderModal();
+                    document.getElementById('paymentSuccessModal').classList.add('active');
+                    document.getElementById('successOrderId').textContent = response.orderId;
+                    showToast('تم إرسال الطلب بنجاح!', 'success');
+                } else {
+                    showToast(response.message || 'حدث خطأ', 'error');
+                }
+            } catch (error) {
+                showToast('حدث خطأ في الإرسال', 'error');
+            } finally {
+                btn.innerHTML = '<i class="fas fa-lock"></i> ادفع الآن';
+                btn.disabled = false;
+            }
+        }
+
+        function handleFileUpload(input) {
+            const container = document.getElementById('uploadedFiles');
+            container.innerHTML = '';
+            if (input.files.length > 0) {
+                for (let file of input.files) {
+                    container.innerHTML += `<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem;color:var(--accent);font-size:0.85rem;"><i class="fas fa-file"></i> ${file.name} (${(file.size/1024).toFixed(1)} KB)</div>`;
+                }
+            }
+        }
+
+        // ==================== CART ====================
+        let cart = [];
+        function addToCart(serviceName, price, method) {
+            cart.push({ id: Date.now() + Math.random(), service: serviceName, price: price, method: method, quantity: 1 });
+            updateCartBadge();
+            showToast('تم إضافة الخدمة إلى السلة', 'success');
+        }
+        function updateCartBadge() {
+            const badge = document.getElementById('cartBadge');
+            if (cart.length > 0) { badge.style.display = 'flex'; badge.textContent = cart.length; }
+            else badge.style.display = 'none';
+        }
+        function openCartModal() {
+            document.getElementById('cartModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            renderCartItems();
+        }
+        function closeCartModal() {
+            document.getElementById('cartModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        function renderCartItems() {
+            const container = document.getElementById('cartItems');
+            const totalEl = document.getElementById('cartTotal');
+            if (cart.length === 0) {
+                container.innerHTML = '<div class="cart-empty"><i class="fas fa-shopping-cart"></i><p>السلة فارغة</p></div>';
+                totalEl.textContent = '$0'; return;
+            }
+            let total = 0;
+            container.innerHTML = cart.map(item => {
+                total += item.price * item.quantity;
+                return `<div class="cart-item"><div class="cart-item-info"><div class="cart-item-title">${item.service}</div><div class="cart-item-meta">${item.method}</div></div><div class="cart-item-price">$${item.price * item.quantity}</div><button class="cart-item-remove" onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button></div>`;
+            }).join('');
+            totalEl.textContent = '$' + total;
+        }
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartBadge(); renderCartItems();
+            showToast('تم حذف الخدمة من السلة', 'info');
+        }
+        function checkoutFromCart() {
+            if (cart.length === 0) { showToast('السلة فارغة', 'error'); return; }
+            closeCartModal();
+            openOrderModal();
+            showToast('أكمل بيانات الطلب', 'info');
+        }
+
+        // ==================== UTILS ====================
+        function toggleFAQ(index) {
+            const items = document.querySelectorAll('.faq-item');
+            items.forEach((item, i) => { if (i === index) item.classList.toggle('active'); else item.classList.remove('active'); });
+        }
+        function openMobileMenu() {
+            document.getElementById('mobileMenu').classList.add('active');
+            document.getElementById('mobileMenuOverlay').classList.add('active');
+        }
+        function closeMobileMenu() {
+            document.getElementById('mobileMenu').classList.remove('active');
+            document.getElementById('mobileMenuOverlay').classList.remove('active');
+        }
+        function showDetails(serviceName) { showToast('تفاصيل: ' + serviceName, 'info'); }
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+            toast.innerHTML = `<i class="fas ${icon}"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+        function closePaymentSuccessModal() {
+            document.getElementById('paymentSuccessModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // ==================== INIT ====================
+        function initScrollReveal() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+        function initNavbarScroll() {
+            window.addEventListener('scroll', () => {
+                document.getElementById('navbar').style.boxShadow = window.pageYOffset > 100 ? '0 4px 20px rgba(0,0,0,0.3)' : 'none';
+            });
+        }
+        function initSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPortfolio();
+            renderTestimonials();
+            renderFAQ();
+            updateCalculator();
+            initScrollReveal();
+            initNavbarScroll();
+            initSmoothScroll();
+            populateServiceSelect();
+        });
+
+        // Close modals on overlay click
+        document.getElementById('orderModal').addEventListener('click', (e) => { if (e.target === document.getElementById('orderModal')) closeOrderModal(); });
+        document.getElementById('cartModal').addEventListener('click', (e) => { if (e.target === document.getElementById('cartModal')) closeCartModal(); });
+        document.getElementById('paymentSuccessModal').addEventListener('click', (e) => { if (e.target === document.getElementById('paymentSuccessModal')) closePaymentSuccessModal(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeOrderModal(); closeCartModal(); closePaymentSuccessModal(); closeMobileMenu(); } });
+    </script>
+</body>
+</html>
